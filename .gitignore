@@ -419,4 +419,5 @@ FodyWeavers.xsd
 
 # Audio and text files in root directory
 /*.mp3
+/*.wav
 /*.txt

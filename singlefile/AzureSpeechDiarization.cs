@@ -32,7 +32,8 @@ Dictionary<string, string> SupportedLanguages = new()
     { "7", "fr-FR" },     // フランス語
     { "8", "de-DE" },     // ドイツ語
     { "9", "it-IT" },     // イタリア語
-    { "10", "pt-BR" }     // ポルトガル語（ブラジル）
+    { "10", "pt-BR" },    // ポルトガル語（ブラジル）
+    { "11", "pl-PL" }     // ポーランド語
 };
 
 Dictionary<string, string> LanguageNames = new()
@@ -46,7 +47,8 @@ Dictionary<string, string> LanguageNames = new()
     { "fr-FR", "Français" },
     { "de-DE", "Deutsch" },
     { "it-IT", "Italiano" },
-    { "pt-BR", "Português (Brasil)" }
+    { "pt-BR", "Português (Brasil)" },
+    { "pl-PL", "Polski" }
 };
 
 Console.WriteLine("=== Azure Speech Services 話者分離デモ ===");
@@ -179,7 +181,8 @@ string SelectLanguage()
         Console.WriteLine("8. Deutsch - de-DE");
         Console.WriteLine("9. Italiano - it-IT");
         Console.WriteLine("10. Português (Brasil) - pt-BR");
-        Console.Write("選択 (1-10): ");
+        Console.WriteLine("11. Polski - pl-PL");
+        Console.Write("選択 (1-11): ");
 
         var choice = Console.ReadLine();
         Console.WriteLine();
@@ -189,7 +192,7 @@ string SelectLanguage()
             return language;
         }
 
-        Console.WriteLine("❌ 無効な選択です。1-10を入力してください。");
+        Console.WriteLine("❌ 無効な選択です。1-11を入力してください。");
         Console.WriteLine();
     }
 }
@@ -568,7 +571,7 @@ async Task ProcessCommandLineArgs(string[] args)
     if (!LanguageNames.ContainsKey(language))
     {
         Console.WriteLine($"❌ エラー: サポートされていない言語です: {language}");
-        Console.WriteLine("サポート言語: en-US, en-GB, ja-JP, zh-CN, ko-KR, es-ES, fr-FR, de-DE, it-IT, pt-BR");
+        Console.WriteLine("サポート言語: en-US, en-GB, ja-JP, zh-CN, ko-KR, es-ES, fr-FR, de-DE, it-IT, pt-BR, pl-PL");
         return;
     }
 
@@ -612,7 +615,7 @@ void ShowUsage()
     Console.WriteLine();
     Console.WriteLine("🌍 対応言語:");
     Console.WriteLine("  en-US, en-GB, ja-JP, zh-CN, ko-KR");
-    Console.WriteLine("  es-ES, fr-FR, de-DE, it-IT, pt-BR");
+    Console.WriteLine("  es-ES, fr-FR, de-DE, it-IT, pt-BR, pl-PL");
     Console.WriteLine();
     Console.WriteLine("⚡ 処理モード:");
     Console.WriteLine("  batch     高速バッチ処理 (推奨、60%安い)");
@@ -657,7 +660,9 @@ string ParseLanguage(string input)
         { "it", "it-IT" },
         { "italian", "it-IT" },
         { "pt", "pt-BR" },
-        { "portuguese", "pt-BR" }
+        { "portuguese", "pt-BR" },
+        { "pl", "pl-PL" },
+        { "polish", "pl-PL" }
     };
 
     if (shortForms.TryGetValue(input, out var fullCode))

@@ -29,7 +29,7 @@ echo ✅ 環境変数が設定されています
 echo リージョン: %SPEECH_REGION%
 echo.
 
-REM プロジェクトの実行
-dotnet run
+REM .NET 10 シングルファイルアプリケーションの実行
+dotnet run --file AzureSpeechDiarization.cs
 
 pause

@@ -28,5 +28,5 @@ echo "✅ 環境変数が設定されています"
 echo "リージョン: $SPEECH_REGION"
 echo
 
-# プロジェクトの実行
-dotnet run
+# .NET 10 シングルファイルアプリケーションの実行
+dotnet run --file AzureSpeechDiarization.cs

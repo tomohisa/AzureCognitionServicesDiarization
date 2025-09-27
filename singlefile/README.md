@@ -4,7 +4,7 @@
 
 ## 機能
 
-- **多言語対応**: 日本語、英語（US/UK）、中国語、韓国語、スペイン語、フランス語、ドイツ語、イタリア語、ポルトガル語に対応
+- **多言語対応**: 日本語、英語（US/UK）、中国語、韓国語、スペイン語、フランス語、ドイツ語、イタリア語、ポルトガル語、ポーランド語に対応
 - **複数の処理モード**: 
   - リアルタイム話者分離（マイク入力）
   - ファイル処理（リアルタイム処理）
@@ -27,6 +27,43 @@
 | **結果取得** | リアルタイム | 完了後一括 |
 
 ## 🔧 セットアップ
+
+### 0. 音声ファイルの準備
+
+#### MP3ファイルをWAVに変換
+
+Azure Speech Servicesでは16kHz, モノラルのWAVファイルが推奨されます。MP3ファイルがある場合は、付属の変換スクリプトを使用してください：
+
+```bash
+# プロジェクトルートで実行
+./convert_mp3_to_wav.sh your_audio.mp3
+
+# 複数ファイル一括変換
+./convert_mp3_to_wav.sh *.mp3
+
+# 出力ファイル名指定
+./convert_mp3_to_wav.sh input.mp3 output.wav
+```
+
+**必要条件：**
+- `ffmpeg` がインストールされていること
+
+**ffmpegのインストール：**
+```bash
+# macOS
+brew install ffmpeg
+
+# Ubuntu/Debian
+sudo apt update && sudo apt install ffmpeg
+
+# Windows
+# https://ffmpeg.org/download.html からダウンロード
+```
+
+**変換設定：**
+- サンプリングレート: 16kHz
+- チャンネル: モノラル
+- フォーマット: WAV (PCM)
 
 ### 1. Azure Speech Servicesの設定
 
@@ -71,8 +108,11 @@ $env:SPEECH_ENDPOINT="https://japaneast.api.cognitive.microsoft.com"
 export SPEECH_KEY=your_speech_key_here
 export SPEECH_REGION=eastus
 
-# バッチ処理で即座に開始（英語）
-dotnet run /path/to/your/audio.wav
+# バッチ処理で即座に開始（英語） - .NET 10 シングルファイル
+dotnet run --file AzureSpeechDiarization.cs -- /path/to/your/audio.wav
+
+# Unix/macOS/Linux 直接実行
+./AzureSpeechDiarization.cs /path/to/your/audio.wav
 
 # 日本語音声の場合
 dotnet run --language ja-JP /path/to/your/audio.wav
@@ -97,7 +137,11 @@ dotnet run
 
 ### 基本構文
 ```bash
-dotnet run [オプション] <WAVファイルパス>
+# .NET 10 シングルファイル実行
+dotnet run --file AzureSpeechDiarization.cs -- [オプション] <WAVファイルパス>
+
+# Unix/macOS/Linux での直接実行
+./AzureSpeechDiarization.cs [オプション] <WAVファイルパス>
 ```
 
 ### オプション一覧
@@ -123,6 +167,7 @@ dotnet run [オプション] <WAVファイルパス>
 | ドイツ語 | `de-DE` | `de`, `german` |
 | イタリア語 | `it-IT` | `it`, `italian` |
 | ポルトガル語 | `pt-BR` | `pt`, `portuguese` |
+| ポーランド語 | `pl-PL` | `pl`, `polish` |
 
 ### 処理モード
 
@@ -135,16 +180,19 @@ dotnet run [オプション] <WAVファイルパス>
 
 ```bash
 # 基本的な使用（英語、バッチ処理）
-dotnet run /Users/john/podcast.wav
+dotnet run --file AzureSpeechDiarization.cs -- /Users/john/podcast.wav
+
+# Unix/macOS/Linux 直接実行
+./AzureSpeechDiarization.cs /Users/john/podcast.wav
 
 # 日本語音声をリアルタイム処理
-dotnet run --language ja-JP --mode realtime /Users/john/meeting.wav
+dotnet run --file AzureSpeechDiarization.cs -- --language ja-JP --mode realtime /Users/john/meeting.wav
 
 # 短縮形を使用
-dotnet run -l japanese -m batch audio.wav
+./AzureSpeechDiarization.cs -l japanese -m batch audio.wav
 
 # ヘルプ表示
-dotnet run --help
+dotnet run --file AzureSpeechDiarization.cs -- --help
 ```
 
 ### 3. プロジェクトのビルドと実行
@@ -186,6 +234,7 @@ dotnet run /path/to/audio.wav
 8. Deutsch - de-DE
 9. Italiano - it-IT
 10. Português (Brasil) - pt-BR
+11. Polski - pl-PL
 ```
 
 言語を選択した後、以下のオプションが表示されます：
@@ -214,10 +263,13 @@ dotnet run /path/to/audio.wav
 
 ```bash
 # 基本的な実行
-dotnet run audio.wav
+dotnet run --file AzureSpeechDiarization.cs -- audio.wav
+
+# Unix/macOS/Linux 直接実行
+./AzureSpeechDiarization.cs audio.wav
 
 # 詳細指定
-dotnet run --language ja-JP --mode batch /Users/john/meeting.wav
+dotnet run --file AzureSpeechDiarization.cs -- --language ja-JP --mode batch /Users/john/meeting.wav
 ```
 
 ## 🌍 対応言語
@@ -234,6 +286,7 @@ dotnet run --language ja-JP --mode batch /Users/john/meeting.wav
 | Deutsch | de-DE | ドイツ語音声認識 |
 | Italiano | it-IT | イタリア語音声認識 |
 | Português (Brasil) | pt-BR | ブラジル系ポルトガル語音声認識 |
+| Polski | pl-PL | ポーランド語音声認識 |
 
 ## 📤 出力結果
 

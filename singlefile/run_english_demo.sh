@@ -72,5 +72,5 @@ echo
 echo "Press any key to continue..."
 read -n 1
 
-# Start the .NET application
-dotnet run
+# Start the .NET 10 single-file application
+dotnet run --file AzureSpeechDiarization.cs
