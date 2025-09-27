@@ -1,0 +1,41 @@
+# Azure Speech Services 環境変数設定例
+
+# 必須: Speech Servicesのキーとリージョン
+# Windows (Command Prompt)
+set SPEECH_KEY=your_azure_speech_key_here
+set SPEECH_REGION=japaneast
+
+# Windows (PowerShell)
+$env:SPEECH_KEY="your_azure_speech_key_here"
+$env:SPEECH_REGION="japaneast"
+
+# macOS/Linux (bash/zsh)
+export SPEECH_KEY=your_azure_speech_key_here
+export SPEECH_REGION=japaneast
+
+# オプション: カスタムエンドポイント
+# 通常は不要ですが、以下の場合に使用：
+# - プライベートエンドポイント
+# - 特定地域のエンドポイント指定
+# - 企業環境での高度なセキュリティ要件
+
+# Windows
+set SPEECH_ENDPOINT=https://japaneast.api.cognitive.microsoft.com
+
+# PowerShell
+$env:SPEECH_ENDPOINT="https://japaneast.api.cognitive.microsoft.com"
+
+# macOS/Linux
+export SPEECH_ENDPOINT=https://japaneast.api.cognitive.microsoft.com
+
+# エンドポイント例：
+# - https://japaneast.api.cognitive.microsoft.com (東日本)
+# - https://japanwest.api.cognitive.microsoft.com (西日本)
+# - https://eastus.api.cognitive.microsoft.com (米国東部)
+# - https://westeurope.api.cognitive.microsoft.com (西ヨーロッパ)
+
+# 使用手順：
+# 1. Azure Portalで Speech Services リソースを作成
+# 2. リソースの「キーとエンドポイント」からキーとリージョン/エンドポイントを確認
+# 3. 上記の環境変数を設定
+# 4. dotnet run でアプリケーションを実行
